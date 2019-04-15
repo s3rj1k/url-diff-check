@@ -17,7 +17,7 @@ import (
 )
 
 // GetURLInfo processes supplied URL.
-func GetURLInfo(url string) (URLInfo, error) {
+func (c *Config) GetURLInfo(url string) (URLInfo, error) {
 
 	// declare output variable
 	var out = URLInfo{
@@ -25,7 +25,7 @@ func GetURLInfo(url string) (URLInfo, error) {
 	}
 
 	// set timeout
-	ctx, cancel := context.WithTimeout(context.Background(), DeadLine)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(c.DeadLine)*time.Second)
 	defer cancel()
 
 	// create custom HTTP client config
@@ -141,19 +141,19 @@ func GetURLInfo(url string) (URLInfo, error) {
 	// configure screenshot engine
 	config := screenshot.DefaultConfig()
 	// set CDP binary path
-	config.CMD = CDPPath
+	config.CMD = c.CDPPath
 	// set URL
 	config.URL = url
 	// time configuration
-	config.Wait = time.Duration(WaitTime) * time.Second
-	config.Deadline = time.Duration(DeadLine) * time.Second
+	config.Wait = time.Duration(c.WaitTime) * time.Second
+	config.Deadline = time.Duration(c.DeadLine) * time.Second
 	// use random profile
 	config.RandomProfileDir = true
 	// use PNG
 	config.IsJPEG = false
 	// set viewport size
-	config.WindowWidth = ImageWidth
-	config.WindowHight = ImageHight
+	config.WindowWidth = c.ImageWidth
+	config.WindowHight = c.ImageHight
 	config.FullPage = false
 
 	// make URL screenshot
