@@ -7,10 +7,10 @@ type URLInfo struct {
 	StatusCode int `json:"statusCode"`
 	BodyLength int `json:"bodyLength"`
 
-	FuzzyHash string `json:"fuzzyHash"`
+	FuzzyHash []byte `json:"fuzzyHash"`
 
 	Image     []byte `json:"-"`
-	ImageHash string `json:"imageHash"`
+	ImageHash []byte `json:"imageHash"`
 }
 
 // Config is a configration object for this library.
@@ -54,7 +54,7 @@ func DefaultConfig() *Config {
 
 	// FuzzyThreshold defines threshold score (number) below which difference (for HTML) will be reported
 	c.FuzzyThreshold = 90
-	// ImageDistanceThreshold defines threshold score (number) above which difference (for Iamge) will be reported
+	// ImageDistanceThreshold defines threshold score (number) above which difference (for Image) will be reported
 	c.ImageDistanceThreshold = 5
 
 	return c

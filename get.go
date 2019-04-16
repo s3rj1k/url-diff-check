@@ -17,10 +17,10 @@ import (
 )
 
 // GetURLInfo processes supplied URL.
-func (c *Config) GetURLInfo(url string) (URLInfo, error) {
+func (c *Config) GetURLInfo(url string) (*URLInfo, error) {
 
 	// declare output variable
-	var out = URLInfo{
+	var out = &URLInfo{
 		URL: url,
 	}
 
