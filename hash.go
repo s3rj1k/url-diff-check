@@ -4,33 +4,40 @@ import (
 	"bytes"
 	"image"
 	_ "image/png" // importing PNG decoder
-	"strings"
 
 	"github.com/corona10/goimagehash"
 	ssdeep "github.com/glaslos/ssdeep"
 )
 
-func computeImageDifferenceHashString(imageBytes []byte) (string, error) {
+func computeImageDifferenceHashString(imageBytes []byte) ([]byte, error) {
 	image, _, err := image.Decode(bytes.NewReader(imageBytes))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	differenceHash, err := goimagehash.DifferenceHash(image)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return differenceHash.ToString(), nil
+	buf := new(bytes.Buffer)
+
+	err = differenceHash.Dump(buf)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
 }
 
-func computeImageDifferenceHashStringDistance(leftHash string, rightHash string) (int, error) {
-	leftImageHash, err := goimagehash.LoadImageHash(strings.NewReader(leftHash))
+func computeImageDifferenceHashStringDistance(leftHash, rightHash []byte) (int, error) {
+
+	leftImageHash, err := goimagehash.LoadImageHash(bytes.NewReader(leftHash))
 	if err != nil {
 		return 0, err
 	}
 
-	rightImageHash, err := goimagehash.LoadImageHash(strings.NewReader(rightHash))
+	rightImageHash, err := goimagehash.LoadImageHash(bytes.NewReader(rightHash))
 	if err != nil {
 		return 0, err
 	}
@@ -43,12 +50,17 @@ func computeImageDifferenceHashStringDistance(leftHash string, rightHash string)
 	return distance, nil
 }
 
-func computeFuzzyHashString(input string) (string, error) {
-	return ssdeep.FuzzyBytes([]byte(input))
+func computeFuzzyHashString(input string) ([]byte, error) {
+	hash, err := ssdeep.FuzzyBytes([]byte(input))
+	if err != nil {
+		return nil, err
+	}
+
+	return []byte(hash), nil
 }
 
-func computeFuzzyHashDistance(leftHash string, rightHash string) (int, error) {
-	score, err := ssdeep.Distance(leftHash, rightHash)
+func computeFuzzyHashDistance(leftHash, rightHash []byte) (int, error) {
+	score, err := ssdeep.Distance(string(leftHash), string(rightHash))
 	if err != nil {
 		return 0, err
 	}

@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Comare error codes.
+// Compare error codes.
 const (
 	_ = iota // ignore first value by assigning to blank identifier
 
@@ -24,7 +24,7 @@ const (
 )
 
 // Compare compares left with right URL object and returs textual error when objects are different.
-func (c *Config) Compare(left URLInfo, right URLInfo) error {
+func (c *Config) Compare(left *URLInfo, right *URLInfo) error {
 
 	// check for non-empty left URL
 	if len(strings.TrimSpace(left.URL)) == 0 {
