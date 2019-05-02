@@ -28,6 +28,8 @@ type Config struct {
 	// ImageHight defines CDP viewport hight
 	ImageHight int
 
+	// BodyLengthThresholdPercentage defines threshold score (percentage) above which difference (for HTML body length) will be reported
+	BodyLengthThresholdPercentage int
 	// FuzzyThreshold defines threshold score (number) below which difference (for HTML) will be reported
 	FuzzyThreshold int
 	// ImageDistanceThreshold defines threshold score (number) above which difference (for Iamge) will be reported
@@ -52,6 +54,8 @@ func DefaultConfig() *Config {
 	// ImageHight defines CDP viewport hight
 	c.ImageHight = 768
 
+	// BodyLengthThresholdPercentage defines threshold score (percentage) above which difference (for HTML body length) will be reported
+	c.BodyLengthThresholdPercentage = 130
 	// FuzzyThreshold defines threshold score (number) below which difference (for HTML) will be reported
 	c.FuzzyThreshold = 90
 	// ImageDistanceThreshold defines threshold score (number) above which difference (for Image) will be reported
