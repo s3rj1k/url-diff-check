@@ -3,6 +3,7 @@ package urldiff
 import (
 	"context"
 	"crypto/tls"
+	"encoding/base64"
 	"fmt"
 	_ "image/png" // importing PNG decoder
 	"io/ioutil"
@@ -161,6 +162,9 @@ func (c *Config) GetURLInfo(url string) (*URLInfo, error) {
 	if err != nil {
 		return out, err
 	}
+
+	// add exported base 64 field
+	out.ImageB64 = base64.StdEncoding.EncodeToString(out.Image)
 
 	// compute image hash
 	out.ImageHash, err = computeImageDifferenceHashString(out.Image)

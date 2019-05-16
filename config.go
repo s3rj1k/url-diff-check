@@ -9,7 +9,9 @@ type URLInfo struct {
 
 	FuzzyHash []byte `json:"fuzzyHash"`
 
-	Image     []byte `json:"-"`
+	Image    []byte `json:"-"`
+	ImageB64 string `json:"image"`
+
 	ImageHash []byte `json:"imageHash"`
 }
 
