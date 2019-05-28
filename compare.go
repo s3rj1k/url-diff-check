@@ -52,7 +52,7 @@ func (c *Config) Compare(left *URLInfo, right *URLInfo) error {
 	maxLenght := math.Max(float64(left.BodyLength), float64(right.BodyLength)) + 1
 	minLenght := math.Min(float64(left.BodyLength), float64(right.BodyLength)) + 1
 
-	currentBodyLengthDifferencePercentage := int(maxLenght * 100 / minLenght)
+	currentBodyLengthDifferencePercentage := int((maxLenght - minLenght) * 100 / maxLenght)
 
 	// compare HTTP body size
 	if currentBodyLengthDifferencePercentage > c.BodyLengthThresholdPercentage {
@@ -62,7 +62,7 @@ func (c *Config) Compare(left *URLInfo, right *URLInfo) error {
 			URL:          left.URL,
 			Current:      currentBodyLengthDifferencePercentage,
 			Threshold:    c.BodyLengthThresholdPercentage,
-			NoDifference: 1,
+			NoDifference: 0,
 		}
 	}
 
@@ -82,14 +82,14 @@ func (c *Config) Compare(left *URLInfo, right *URLInfo) error {
 
 	// check fuzzy hash for HTTP body
 	if bodyDistance, err := computeFuzzyHashDistance(left.FuzzyHash, right.FuzzyHash); err == nil {
-		if bodyDistance < c.FuzzyThreshold {
+		if bodyDistance > c.FuzzyThreshold {
 			return &ThresholdTriggeredError{
 				Code:         HTTPBodyHashThresholdTriggeredCode,
 				Message:      HTTPBodyHashThresholdTriggeredMessage,
 				URL:          left.URL,
 				Current:      bodyDistance,
 				Threshold:    c.FuzzyThreshold,
-				NoDifference: 100,
+				NoDifference: 0,
 			}
 		}
 	}
