@@ -65,5 +65,5 @@ func computeFuzzyHashDistance(leftHash, rightHash []byte) (int, error) {
 		return 0, err
 	}
 
-	return score, nil
+	return 100 - score, nil
 }

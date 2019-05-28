@@ -55,9 +55,9 @@ func DefaultConfig() *Config {
 	c.ImageHight = 768
 
 	// BodyLengthThresholdPercentage defines threshold score (percentage) above which difference (for HTML body length) will be reported
-	c.BodyLengthThresholdPercentage = 130
+	c.BodyLengthThresholdPercentage = 30
 	// FuzzyThreshold defines threshold score (number) below which difference (for HTML) will be reported
-	c.FuzzyThreshold = 90
+	c.FuzzyThreshold = 10
 	// ImageDistanceThreshold defines threshold score (number) above which difference (for Image) will be reported
 	c.ImageDistanceThreshold = 5
 
