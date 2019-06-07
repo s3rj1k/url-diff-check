@@ -30,7 +30,7 @@ type Config struct {
 
 	// BodyLengthThresholdPercentage defines threshold score (percentage) above which difference (for HTML body length) will be reported
 	BodyLengthThresholdPercentage int
-	// FuzzyThreshold defines threshold score (number) below which difference (for HTML) will be reported
+	// FuzzyThreshold defines threshold score (number) above which difference (for HTML) will be reported
 	FuzzyThreshold int
 	// ImageDistanceThreshold defines threshold score (number) above which difference (for Iamge) will be reported
 	ImageDistanceThreshold int
@@ -38,14 +38,13 @@ type Config struct {
 
 // DefaultConfig returns default config object.
 func DefaultConfig() *Config {
-
 	c := new(Config)
 
 	// CDPPath path to CDP binary
 	c.CDPPath = "/usr/bin/google-chrome-stable"
 
 	// DeadLine global deadline for URL processing
-	c.DeadLine = 300
+	c.DeadLine = 60
 	// WaitTime defines time for URL stabilization
 	c.WaitTime = 5
 
@@ -56,8 +55,8 @@ func DefaultConfig() *Config {
 
 	// BodyLengthThresholdPercentage defines threshold score (percentage) above which difference (for HTML body length) will be reported
 	c.BodyLengthThresholdPercentage = 30
-	// FuzzyThreshold defines threshold score (number) below which difference (for HTML) will be reported
-	c.FuzzyThreshold = 10
+	// FuzzyThreshold defines threshold score (number) above which difference (for HTML) will be reported
+	c.FuzzyThreshold = 40
 	// ImageDistanceThreshold defines threshold score (number) above which difference (for Image) will be reported
 	c.ImageDistanceThreshold = 5
 
