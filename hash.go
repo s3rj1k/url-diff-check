@@ -31,7 +31,6 @@ func computeImageDifferenceHashString(imageBytes []byte) ([]byte, error) {
 }
 
 func computeImageDifferenceHashStringDistance(leftHash, rightHash []byte) (int, error) {
-
 	leftImageHash, err := goimagehash.LoadImageHash(bytes.NewReader(leftHash))
 	if err != nil {
 		return 0, err
