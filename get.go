@@ -2,11 +2,9 @@ package urldiff
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	_ "image/png" // importing PNG decoder
 	"io/ioutil"
-	"net/http"
 	"strings"
 	"time"
 
@@ -27,24 +25,12 @@ func (c *Config) GetURLInfo(url string) (*URLInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(c.DeadLine)*time.Second)
 	defer cancel()
 
-	// create custom HTTP client config
-	client := &http.Client{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true, // nolint: gosec
-			},
-		},
-	}
-
 	// get server response
-	r, err := ctxhttp.Get(ctx, client, url)
+	r, err := ctxhttp.Get(ctx, c.Client, url)
 	if err != nil {
 		return out, err
 	}
-
-	defer func() {
-		_ = r.Body.Close()
-	}()
+	defer r.Body.Close()
 
 	// read response body
 	rBodyBytes, err := ioutil.ReadAll(r.Body)
