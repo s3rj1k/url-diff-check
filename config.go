@@ -1,5 +1,10 @@
 package urldiff
 
+import (
+	"crypto/tls"
+	"net/http"
+)
+
 // URLInfo describes URL status for state comparison.
 type URLInfo struct {
 	URL string `json:"URL"`
@@ -34,6 +39,8 @@ type Config struct {
 	FuzzyThreshold int
 	// ImageDistanceThreshold defines threshold score (number) above which difference (for Iamge) will be reported
 	ImageDistanceThreshold int
+	// http Client used to get URL Info
+	Client *http.Client
 }
 
 // DefaultConfig returns default config object.
@@ -59,6 +66,15 @@ func DefaultConfig() *Config {
 	c.FuzzyThreshold = 40
 	// ImageDistanceThreshold defines threshold score (number) above which difference (for Image) will be reported
 	c.ImageDistanceThreshold = 5
+	// create custom HTTP client config
+	c.Client = &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true, // nolint: gosec
+			},
+			DisableKeepAlives: true,
+		},
+	}
 
 	return c
 }
